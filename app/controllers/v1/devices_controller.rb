@@ -10,6 +10,7 @@ class V1::DevicesController < ApplicationController
     render json: @device
   end
 
+
   def create
     @device = Device.create(parameters)
     @result = @device.persisted? ? @device : "Providing data which existing in database"
