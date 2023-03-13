@@ -10,9 +10,57 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_13_074904) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  
+  create_table "devices", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "device_type", null: false
+    t.string "build", null: false
+    t.string "category", null: false
+    t.string "tag_no", null: false
+    t.boolean "status", default: false, null: false
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_devices_on_employee_id"
+  end
+
+  create_table "employee_details", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.bigint "phone_number", null: false
+    t.string "designation", null: false
+    t.date "date_of_birth", null: false
+    t.bigint "employee_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employee_details_on_employee_id"
+  end
+
+  create_table "employees", force: :cascade do |t|
+    t.string "emp_id"
+    t.string "email", null: false
+    t.string "encrypted_password", default: "Prasthana@2023", null: false
+    t.string "jti", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_employees_on_email", unique: true
+    t.index ["jti"], name: "index_employees_on_jti", unique: true
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.bigint "employee_id", null: false
+    t.string "role", default: "employee", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_roles_on_employee_id"
+  end
+
+  add_foreign_key "devices", "employees"
+  add_foreign_key "employee_details", "employees"
+  add_foreign_key "roles", "employees"
 end
