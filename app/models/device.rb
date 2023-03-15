@@ -24,5 +24,4 @@ class Device < ApplicationRecord
     @employee = Employee.where(id: self.employee_id).blank?
     raise "Employee record not found" if @employee && !!self.employee_id
   end
-
 end

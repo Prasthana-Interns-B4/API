@@ -10,7 +10,6 @@ class Ability
 
     elsif employee.present?
       can :read,Device,employee: employee
-      
     end
   end
 end

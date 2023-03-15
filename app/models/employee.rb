@@ -1,15 +1,20 @@
 class Employee < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   include Devise::JWT::RevocationStrategies::JTIMatcher
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
+  has_one :employee_detail, dependent: :destroy
+  has_one :role, dependent: :destroy
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
+  def jwt_payload
+    super
+  end
 
-  has_one :employee_detail
-  has_many :devices
-  has_one :role
+  STATUSES = %w[pending active resign]
 
+  STATUSES.each do |st|
+    define_method "#{st}?" do
+      self.status == st
+    end
+  end
+  
   ROLES = %w[hr_manager facility_manager employee]
 
   ROLES.each do |role_name|
@@ -17,9 +22,18 @@ class Employee < ApplicationRecord
       self.role.role == role_name
     end
   end
-  
-  def jwt_payload
-    super
+
+  def create_by_hr_manager(params)
+    self.emp_id = "PR#{self.id.to_s.rjust(3, '0')}"
+    self.status = "active"
+    self.create_employee_detail(params)
+    self.create_role
+    return self if self.save
   end
 
+  def create_by_employee(params)
+    self.create_employee_detail(params)
+    self.create_role
+    return self if self.save
+  end
 end

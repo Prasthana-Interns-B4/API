@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  alias_method :current_user, :current_employee
   rescue_from PG::NotNullViolation do |exception|
     render json: exception.error
   end
@@ -14,4 +15,10 @@ class ApplicationController < ActionController::API
   rescue_from ActionDispatch::Http::Parameters::ParseError do |exception|
     render json: {error: "passing parameters passing format"}
   end
+
+  def get_current_employee
+    jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1], Rails.application.secret_key_base).first
+    Employee.find(jwt_payload['sub'])
+  end
+
 end
