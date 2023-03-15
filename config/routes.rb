@@ -8,9 +8,16 @@ Rails.application.routes.draw do
         registrations: 'employees/registrations'
       }
 
-  namespace :v1 do
-    resources :devices
-
+  scope module: :v1 do
+    resources :devices do
+      get 'search?q=:search' => 'devices#search_implemention',on: :collection
+    end
   end
-
+	
+	scope module: :v1 do
+		resources :employees do
+			put 'forgot_password' => 'employees#forgot_password', on: :collection
+			put 'reset_password' => 'employees#reset_password', on: :collection
+		end
+	end
 end

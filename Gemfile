@@ -18,6 +18,9 @@ gem 'devise-jwt'
 #cancancan
 gem 'cancancan'
 
+#active_model_serializers
+gem 'active_model_serializers', '~> 0.10.2'
+
 #gem postgres sql
 gem 'pg'
 # Use the Puma web server [https://github.com/puma/puma]

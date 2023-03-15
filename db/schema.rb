@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_13_092420) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_14_113104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_092420) do
     t.string "build", null: false
     t.string "category", null: false
     t.string "tag_no"
+    t.string "image_url", null: false
     t.boolean "status", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -35,6 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_092420) do
     t.bigint "employee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "date_of_birth", null: false
     t.index ["employee_id"], name: "index_employee_details_on_employee_id"
   end
 
@@ -53,13 +55,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_092420) do
 
   create_table "roles", force: :cascade do |t|
     t.bigint "employee_id", null: false
-    t.string "role", null: false
+    t.string "role", default: "employee", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_roles_on_employee_id"
   end
 
-  add_foreign_key "devices", "employees"
   add_foreign_key "employee_details", "employees"
   add_foreign_key "roles", "employees"
 end
