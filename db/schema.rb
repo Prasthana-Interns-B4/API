@@ -10,15 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_13_074904) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_13_092420) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "devices", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "device_type", null: false
-    t.string "build", null: false
-    t.string "category", null: false
+
+    t.bigint "employee_id"
+    t.string "tag_no"
+    t.string "image_url", null: false
+    t.boolean "status", default: false, null: false
     t.string "tag_no", null: false
     t.string "image_url", null: false
     t.boolean "status", default: false, null: false

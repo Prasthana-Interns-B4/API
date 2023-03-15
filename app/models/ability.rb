@@ -4,14 +4,12 @@ class Ability
   include CanCan::Ability
 
   def initialize(employee)
-    if employee.role.hr_manager?
-      can :manage, Employee, EmployeeDetail
-      can :read, Device
-    elsif employee.role.fr_manager
-      can :manage, Device
-      can :read, Employee
-    else
-      can :manage, Employee, EmployeeDetail, employee: employee
+    if employee.facility_manager?
+
+    elsif employee.hr_manager?
+
+    elsif employee.present?
+      can :read,Device,employee: employee
     end
   end
 end

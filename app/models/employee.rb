@@ -14,6 +14,14 @@ class Employee < ApplicationRecord
       self.status == st
     end
   end
+  
+  ROLES = %w[hr_manager facility_manager employee]
+
+  ROLES.each do |role_name|
+    define_method "#{role_name}?" do
+      self.role.role == role_name
+    end
+  end
 
   def create_by_hr_manager(params)
     self.emp_id = "PR#{self.id.to_s.rjust(3, '0')}"

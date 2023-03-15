@@ -39,4 +39,3 @@ class Employees::RegistrationsController < Devise::RegistrationsController
     params.permit(:email, :password)
   end
 end
-
