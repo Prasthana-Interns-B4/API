@@ -6,6 +6,7 @@ class CreateDevices < ActiveRecord::Migration[7.0]
       t.string :build, null: false
       t.string :category, null: false
       t.string :tag_no, null: false
+      t.string :image_url, null: false
       t.boolean :status, default: false, null: false
       t.references :employee, foreign_key: true
       t.timestamps

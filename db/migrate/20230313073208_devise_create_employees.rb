@@ -10,8 +10,8 @@ class DeviseCreateEmployees < ActiveRecord::Migration[7.0]
       t.string :jti, null: false
       t.string :status, default: 'pending', null: false
       ## Recoverable
-      # t.string   :reset_password_token
-      # t.datetime :reset_password_sent_at
+      t.string   :reset_password_token
+      t.datetime :reset_password_sent_at
 
       ## Rememberable
       t.datetime :remember_created_at
@@ -40,7 +40,7 @@ class DeviseCreateEmployees < ActiveRecord::Migration[7.0]
 
     add_index :employees, :jti, unique: true
     add_index :employees, :email, unique: true
-    # add_index :employees, :reset_password_token, unique: true
+    add_index :employees, :reset_password_token, unique: true
     # add_index :employees, :confirmation_token,   unique: true
     # add_index :employees, :unlock_token,         unique: true
   end

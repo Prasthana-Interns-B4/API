@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_074904) do
     t.string "build", null: false
     t.string "category", null: false
     t.string "tag_no", null: false
+    t.string "image_url", null: false
     t.boolean "status", default: false, null: false
     t.bigint "employee_id"
     t.datetime "created_at", null: false
@@ -45,11 +46,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_074904) do
     t.string "encrypted_password", default: "Prasthana@2023", null: false
     t.string "jti", null: false
     t.string "status", default: "pending", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["jti"], name: "index_employees_on_jti", unique: true
+    t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
   end
 
   create_table "roles", force: :cascade do |t|
