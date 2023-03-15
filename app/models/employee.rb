@@ -10,8 +10,16 @@ class Employee < ApplicationRecord
   has_many :devices
   has_one :role
 
+  ROLES = %w[hr_manager facility_manager employee]
 
+  ROLES.each do |role_name|
+    define_method "#{role_name}?" do
+      self.role.role == role_name
+    end
+  end
+  
   def jwt_payload
     super
   end
+
 end

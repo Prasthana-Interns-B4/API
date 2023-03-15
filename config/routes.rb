@@ -8,9 +8,11 @@ Rails.application.routes.draw do
         registrations: 'employees/registrations'
       }
 
-  namespace :v1 do
-    resources :devices
-
+  scope module: :v1 do
+    resources :devices do
+    get 'search' => 'devices#search',on: :collection
+    end
   end
+
 
 end
