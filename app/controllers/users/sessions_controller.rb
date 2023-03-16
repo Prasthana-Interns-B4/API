@@ -1,17 +1,17 @@
-class Employees::SessionsController < Devise::SessionsController
+class Users::SessionsController < Devise::SessionsController
   respond_to :json
 
   private
 
-  def respond_with(employee, options={})
+  def respond_with(user, options={})
     render json: {
-        status: {code: 200, message: "user Signed in successfully", data: current_employee}
+        status: {code: 200, message: "user Signed in successfully", data: current_user}
       }, status: :ok
   end
 
   def respond_to_on_destroy
-    current_employee = get_current_employee
-    if current_employee
+    current_user = get_current_user
+    if current_user
       render json: {
         status: 200,
         message: "Signed out successfully"

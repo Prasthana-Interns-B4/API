@@ -8,7 +8,7 @@ class CreateDevices < ActiveRecord::Migration[7.0]
       t.string :tag_no, null: false
       t.string :image_url, null: false
       t.boolean :status, default: false, null: false
-      t.references :employee, foreign_key: true
+      t.references :user, foreign_key: true
       t.timestamps
     end
   end

@@ -1,7 +1,7 @@
 class Role < ApplicationRecord
-  belongs_to :employee
+  belongs_to :user
 
-  ROLES = %w[hr_manager facility_manager employee]
+  ROLES = %w[hr_manager facility_manager user]
 
   ROLES.each do |role_name|
     define_method "#{role_name}?" do
