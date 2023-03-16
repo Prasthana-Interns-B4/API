@@ -6,26 +6,35 @@ class Employee < ApplicationRecord
   def jwt_payload
     super
   end
+   
+  validates :email,presence:true,uniqueness: true
+  validates :status, inclusion: {
+  in: %w[active pending resign],
+  message: "invalid status"}
+  validates :encrypted_password,presence: true
 
-  STATUSES = %w[pending active resign]
 
-  STATUSES.each do |st|
-    define_method "#{st}?" do
-      self.status == st
-    end
-  end
+  # STATUSES = %w[pending active resign]
 
-  def create_by_hr_manager(params)
-    self.emp_id = "PR#{self.id.to_s.rjust(3, '0')}"
-    self.status = "active"
-    self.create_employee_detail(params)
-    self.create_role
-    return self if self.save
-  end
+  # STATUSES.each do |st|
+  #   define_method "#{st}?" do
+  #     self.status == st
+  #   end
+  # end
 
-  def create_by_employee(params)
-    self.create_employee_detail(params)
-    self.create_role
-    return self if self.save
-  end
+  # def create_by_hr_manager(params)
+  #   self.emp_id = "PR#{self.id.to_s.rjust(3, '0')}"
+  #   self.status = "active"
+  #   self.create_employee_detail(params)
+  #   self.create_role
+  #   return self if self.save
+  # end
+
+  # def create_by_employee(params)
+  #   self.create_employee_detail(params)
+  #   self.create_role
+  #   return self if self.save
+  # end
+
+  
 end

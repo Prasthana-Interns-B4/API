@@ -4,6 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(employee)
+    byebug
     if employee.role.hr_manager?
       can :manage, Employee, EmployeeDetail
       can :read, Device
