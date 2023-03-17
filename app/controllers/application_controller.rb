@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::API
-  alias_method :current_user, :current_user
    #can can can gem passing mass params
   before_action do
     resource = controller_name.singularize.to_sym
@@ -8,7 +7,7 @@ class ApplicationController < ActionController::API
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    render json: {status: :forbidden ,exception: exception}
+    render json: {status: :forbidden ,exception: exception},status: 403
   end
   rescue_from PG::NotNullViolation do |exception|
     render json: {errors: exception.error}
@@ -18,6 +17,11 @@ class ApplicationController < ActionController::API
   end
   rescue_from RuntimeError do |e|
     render json: {error: e}
+  end
+
+
+  def user_authorization
+    raise "You are not authorize or Token not present." if current_user != token_user
   end
 
   def token_user

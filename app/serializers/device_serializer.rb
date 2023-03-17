@@ -11,8 +11,8 @@ class DeviceSerializer < ActiveModel::Serializer
 
   def user_name
     if self.object.status == true
-      @user=UserDetail.find(self.object.user_id)
-      "#{@user.first_name +  @user.last_name}"
+      user=UserDetail.find(self.object.user_id)
+      "#{user.first_name}"
     else
       "None"
     end
