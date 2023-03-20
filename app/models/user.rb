@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_one :user_detail, dependent: :destroy
   has_one :role, dependent: :destroy
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
+  accepts_nested_attributes_for :user_detail, :role
   def jwt_payload
     super
   end
@@ -12,6 +13,14 @@ class User < ApplicationRecord
   STATUSES.each do |st|
     define_method "#{st}?" do
       self.status == st
+    end
+  end
+
+  ROLES = %w[hr_manager facility_manager user]
+
+  ROLES.each do |role_name|
+    define_method "#{role_name}?" do
+      self.role.role == role_name
     end
   end
 
