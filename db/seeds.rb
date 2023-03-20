@@ -13,7 +13,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-User.destroy_all
+# User.destroy_all
 hr_manager = User.create(emp_id:"PR001",email:"swathi@prasthana.com",password:"Prasthana@2023",status:"active")
 hr_manager.create_user_detail(first_name:"Swathi",last_name:"nil",phone_number: 7780152057,designation:"HR",date_of_birth:"16/03/1996")
 hr_manager.create_role(role:"hr_manager")

@@ -2,14 +2,15 @@ class V1::DevicesController < ApplicationController
   include ActionController::Serialization
   before_action :user_authorization
   load_and_authorize_resource
+  before_action :device_search,only: %i[destroy update show]
+
   def index
     devices = Device.search_bar(params[:search]).accessible_by(current_ability)
-    render json: devices,status: 200
+    render json: {"devices": devices},status: 200
   end
 
   def show
-    device = device_search
-    render json: device,status: 200
+    render json: @device,status: 200
   end
 
   def create
@@ -19,23 +20,22 @@ class V1::DevicesController < ApplicationController
   end
 
   def update
-    device = device_search.update!(device_params)
-    render json: device_search,status: 202
+    @device.update!(device_params)
+    render json: @device,status: 201
   end
 
   def destroy
-    device = device_search.destroy
-    render json: {message: "Successfully removed from Devices"},status: 200
+    @device.destroy
+    render json: {message: "Successfully removed from Devices List"},status: 200
   end
 
-
   private
-#can can can gem passing mass params
+  #can can can gem passing mass params
   def device_params
     params.permit(:name,:device_type,:os,:category,:user_id)
   end
 
   def device_search
-    Device.find(params[:id])
+    @device = Device.find(params[:id])
   end
 end
