@@ -1,7 +1,5 @@
 class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
-<<<<<<< HEAD
-=======
 
   @@image_urls = {"laptop" => "https://m.media-amazon.com/images/I/61Dw5Z8LzJL._SX522_.jpg",
                   "mouse" =>  "https://m.media-amazon.com/images/I/61onAgKP5gL._SX522_.jpg",
@@ -12,5 +10,4 @@ class ApplicationRecord < ActiveRecord::Base
                   "default" => "https://www.hsvphry.org.in/assets/img/AuthorityMember/image_202208231512_637968643401675127.jpg"
   }
 
->>>>>>> 398d2c9c20ab38013b10f7221e351bccd22b21bd
 end
