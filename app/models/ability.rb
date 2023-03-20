@@ -8,7 +8,7 @@ class Ability
       can :read,UserDetail
       can :read,Role
     elsif user&.hr_manager?
-      can :read,Device
+      can :read,Device,user: user
     elsif user&.present?
       can :read,Device,user: user
     end

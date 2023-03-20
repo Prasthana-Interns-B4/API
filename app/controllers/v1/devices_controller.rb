@@ -5,8 +5,8 @@ class V1::DevicesController < ApplicationController
   before_action :device_search,only: %i[destroy update show]
 
   def index
-    devices = Device.search_bar(params[:search]).accessible_by(current_ability)
-    render json: {"devices": devices},status: 200
+    devices = Device.accessible_by(current_ability).search_bar(params[:search])
+    render json: {"devices": devices},status: 200,except: %i[created_at updated_at]
   end
 
   def show
@@ -14,9 +14,8 @@ class V1::DevicesController < ApplicationController
   end
 
   def create
-    device = Device.create(device_params)
-    result = device.persisted? ? device : device.errors
-    render json: result
+    device = Device.create!(device_params)
+    render json: device,status: 201
   end
 
   def update

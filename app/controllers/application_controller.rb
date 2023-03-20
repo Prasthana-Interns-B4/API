@@ -9,7 +9,7 @@ class ApplicationController < ActionController::API
   rescue_from CanCan::AccessDenied do |exception|
     render json: {status: :forbidden ,exception: exception},status: 401
   end
-  rescue_from PG::NotNullViolation do |exception|
+  rescue_from PG::NotNullViolation || ActiveRecord::RecordInvalid  do |exception|
     render json: {errors: exception.error},status: 404
   end
   rescue_from ActiveRecord::RecordNotFound || NoMethodError do |exception|
