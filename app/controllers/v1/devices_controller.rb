@@ -3,13 +3,13 @@ class V1::DevicesController < ApplicationController
   before_action :user_authorization
   load_and_authorize_resource
   def index
-    devices = Device.search_bar(params[:query]).accessible_by(current_ability)
-    render json: devices
+    devices = Device.search_bar(params[:search]).accessible_by(current_ability)
+    render json: devices,status: 200
   end
 
   def show
     device = device_search
-    render json: device
+    render json: device,status: 200
   end
 
   def create
@@ -20,7 +20,7 @@ class V1::DevicesController < ApplicationController
 
   def update
     device = device_search.update!(device_params)
-    render json: device_search
+    render json: device_search,status: 202
   end
 
   def destroy

@@ -4,6 +4,8 @@ class Device < ApplicationRecord
   before_update :status,:image_url,:user_id_check
 
   validates :tag_no,uniqueness: true
+  validates :name,presence: true,length: {minimum: 3}
+  validates :os,length: {minimum: 3}
   attribute :category,:string,default: "Goodies"
   attribute :image_url,:string,default: @@image_urls["default"]
   scope :search_bar, ->(search) {where("name ILIKE ? OR tag_no ILIKE ? OR device_type ILIKE ?","%#{search}%","%#{search}%","%#{search}%").all}
@@ -14,7 +16,7 @@ class Device < ApplicationRecord
 
   def tag_no_assign
     id = Device.last.present? ? Device.last.id+1 : 1
-    self.tag_no = "DEV-" + "#{"%03d" % id}" #"#{(id).to_s.rjust(3,'0')}"
+    self.tag_no = "DEV-" + "#{"%03d" % id}"
   end
 
   def status

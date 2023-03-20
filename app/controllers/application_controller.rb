@@ -7,16 +7,16 @@ class ApplicationController < ActionController::API
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    render json: {status: :forbidden ,exception: exception},status: 403
+    render json: {status: :forbidden ,exception: exception},status: 401
   end
   rescue_from PG::NotNullViolation do |exception|
-    render json: {errors: exception.error}
+    render json: {errors: exception.error},status: 404
   end
   rescue_from ActiveRecord::RecordNotFound || NoMethodError do |exception|
-    render json: {status: 401,messages: "No record found"},status: 401
+    render json: {status: 401,messages: "No record found"},status: 405
   end
   rescue_from RuntimeError do |e|
-    render json: {error: e}
+    render json: {error: e},status: 409
   end
 
 
