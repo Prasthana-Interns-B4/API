@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::API
-  alias_method :current_user, :current_user
 
-  def get_current_user
+  def token_user
     jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1], Rails.application.secret_key_base).first
     User.find(jwt_payload['sub'])
   end
@@ -9,6 +8,10 @@ class ApplicationController < ActionController::API
 
   rescue_from ActiveRecord::RecordNotSaved do |exception|
     render json: { message: exception.message}
+  end
+
+  rescue_from ActiveRecord::RecordInvalid do |exception|
+    render json: { message: exception.message }
   end
 
 end
