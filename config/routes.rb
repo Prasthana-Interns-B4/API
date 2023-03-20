@@ -3,4 +3,30 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  devise_for :users, controllers: {
+        sessions: 'users/sessions',
+        registrations: 'users/registrations'
+      }
+
+  scope module: :v1 do
+    resources :devices do
+    get 'search' => 'devices#search',on: :collection
+    end
+  end
+
+
+  scope module: :v1 do
+    resources :users do
+      member do
+        put 'approve', to:  "users#approve"
+        put 'resetpassword',to: "users#update"
+        put 'update_by_employee',to: "users#update"
+        delete 'reject' ,to:"users#destroy"
+      end
+      post '/create_employee', to: 'users#create', on: :collection
+    end
+  end
+
+
+
 end
