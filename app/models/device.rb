@@ -8,7 +8,7 @@ class Device < ApplicationRecord
   validates :os,length: {minimum: 3}
   attribute :category,:string,default: "Goodies"
   attribute :image_url,:string,default: @@image_urls["default"]
-  scope :search_bar, ->(search) {where("name ILIKE ? OR tag_no ILIKE ? OR device_type ILIKE ?","%#{search}%","%#{search}%","%#{search}%").each}
+  scope :search_bar, ->(search) {where("name ILIKE ? OR tag_no ILIKE ? OR device_type ILIKE ?","%#{search}%","%#{search}%","%#{search}%")}
 
   def image_url
     self.image_url = @@image_urls[self.device_type.downcase]

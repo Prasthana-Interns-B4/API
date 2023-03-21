@@ -1,31 +1,31 @@
 class V1::DevicesController < ApplicationController
-  include ActionController::Serialization
+  # include ActionController::Serialization
   before_action :user_authorization
   load_and_authorize_resource
   before_action :device_search,only: %i[destroy update show]
 
   def index
     devices = Device.accessible_by(current_ability).search_bar(params[:search])
-    render json: {"devices": devices},status: 200,except: %i[created_at updated_at]
+    render json: devices,status: :ok,each_serializer: DeviceSerializer
   end
 
   def show
-    render json: @device,status: 200
+    render json: @device,status: :ok,each_serializer: DeviceSerializer
   end
 
   def create
     device = Device.create!(device_params)
-    render json: device,status: 201
+    render json: device,status: :created,each_serializer: DeviceSerializer
   end
 
   def update
     @device.update!(device_params)
-    render json: @device,status: 201
+    render json: @device,status: :created,each_serializer: DeviceSerializer
   end
 
   def destroy
     @device.destroy
-    render json: {message: "Successfully removed from Devices List"},status: 200
+    head :no_content
   end
 
   private
