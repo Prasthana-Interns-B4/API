@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_one :role, dependent: :destroy
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
   accepts_nested_attributes_for :user_detail, :role
+  
   def jwt_payload
     super
   end
