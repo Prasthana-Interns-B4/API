@@ -19,11 +19,11 @@ Rails.application.routes.draw do
     resources :users do
       member do
         put 'approve', to:  "users#approve"
-        put 'resetpassword',to: "users#update"
         put 'update_by_employee',to: "users#update"
         delete 'reject' ,to:"users#destroy"
       end
       post '/create_employee', to: 'users#create', on: :collection
+      get '/profile', to: 'users#profile',on: :collection
     end
   end
 

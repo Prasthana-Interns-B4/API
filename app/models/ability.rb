@@ -6,23 +6,20 @@ class Ability
   def initialize(user)
 
     if user&.facility_manager?
-      can :manage, Device
-      can :read, User
-      can :read, UserDetail
+      can :show, User
+      can :show, UserDetail
       can :read, Role
       can :update, User, [:password], user: user
     elsif user&.hr_manager?
-      can :read, Device
       can :manage, User
-      can :manage, UserDetail
+      can :update, UserDetail,[:first_name, :last_name, :phone_number,:date_of_birth]
       can :read, Role
       can :update, User, [:password]
-    elsif user&.employee?
-      can :read, Device, user: user
-      can :read, User, user: user
-      can :read, UserDetail, user: user
-      can :update, User,  [:password]
-      can :update, UserDetail,[:first_name, :last_name, :phone_number]
+    elsif user&.employee? 
+      can :read,User, id: user.id
+      can :read, UserDetail, user_id: user.id
+      can :update, User,  [:password],id: user.id
+      can :update, UserDetail,[:first_name, :last_name, :phone_number],user_id: user.id
     end
   end
 end

@@ -8,10 +8,5 @@ class UserDetail < ApplicationRecord
    validates :designation,presence: true
 
    validates :date_of_birth,presence: true  
-  
-  scope :search, ->(type) {
-    where("first_name ILIKE ? OR last_name ILIKE ? OR CAST(phone_number AS TEXT) ILIKE ?", 
-      "%#{type}%", "%#{type}%", "%#{type}%")
-  }
-   
+ 
 end
