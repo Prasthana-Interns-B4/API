@@ -19,16 +19,29 @@ class ApplicationController < ActionController::API
     render json: {error: exception},status: :no_content
   end
 
+
+  rescue_from ActiveRecord::RecordNotSaved do |exception|
+    render json: { message: exception.message}
+  end
+
+  rescue_from ActiveRecord::RecordInvalid do |exception|
+    render json: { message: exception.message }
+  end
+
   def user_authorization
     raise "You are not authorize or Token not present." if current_user != token_user
   end
 
   def token_user
-     if request.headers['Authorization'].present?
+    if token_present?
       jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1], Rails.application.secret_key_base).first
       User.find(jwt_payload['sub'])
-     else
-      raise "You are not authorize or Token not present."
-     end
+    end
   end
+
+
+  def token_present?
+    request.headers['Authorization'].present?
+  end
+
 end

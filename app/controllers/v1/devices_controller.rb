@@ -1,16 +1,15 @@
 class V1::DevicesController < ApplicationController
-  # include ActionController::Serialization
   before_action :user_authorization
   load_and_authorize_resource
   before_action :device_search,only: %i[destroy update show]
 
   def index
     devices = Device.accessible_by(current_ability).search_bar(params[:search])
-    render json: devices,status: :ok,each_serializer: DeviceSerializer
+    render json: devices,status: :ok,each_serializer: DeviceSerializer,include: ['user.user_detail']
   end
 
   def show
-    render json: @device,status: :ok,each_serializer: DeviceSerializer
+    render json: @device,status: :ok,each_serializer: DeviceSerializer,include: ['user.user_detail']
   end
 
   def create

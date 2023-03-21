@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_one :role, dependent: :destroy
   has_many :devices
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
+  accepts_nested_attributes_for :user_detail, :role
   def jwt_payload
     super
   end
@@ -24,17 +25,7 @@ class User < ApplicationRecord
     end
   end
 
-  def create_by_hr_manager(params)
-    self.emp_id = "PR#{self.id.to_s.rjust(3, '0')}"
-    self.status = "active"
-    self.create_user_detail(params)
-    self.create_role
-    return self if self.save
-  end
-
-  def create_by_user(params)
-    self.create_user_detail(params)
-    self.create_role
-    return self if self.save
+  def generate_emp_id
+    "PR#{self.id.to_s.rjust(3, '0')}"
   end
 end
