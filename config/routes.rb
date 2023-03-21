@@ -3,21 +3,22 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  devise_for :employees, controllers: {
-        sessions: 'employees/sessions',
-        registrations: 'employees/registrations'
+  devise_for :users, controllers: {
+        sessions: 'users/sessions',
+        registrations: 'users/registrations'
       }
 
   scope module: :v1 do
     resources :devices do
-      get 'search?q=:search' => 'devices#search_implemention',on: :collection
+    get 'search' => 'devices#search',on: :collection
     end
   end
 	
 	scope module: :v1 do
-		resources :employees do
-			put 'forgot_password' => 'employees#forgot_password', on: :collection
-			put 'reset_password' => 'employees#reset_password', on: :collection
+		resources :users do
+			put 'forgot_password' => 'users#forgot_password', on: :collection
+			put 'reset_password' => 'users#reset_password', on: :member
 		end
 	end
+	
 end
