@@ -4,11 +4,10 @@ class User< ApplicationRecord
   has_one :role, dependent: :destroy
   has_many :devices
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
-  accepts_nested_attributes_for :user_detail, :role
-  accepts_nested_attributes_for :user_detail, update_only: true
+  accepts_nested_attributes_for :user_detail, :role, update_only: true
+
   validates :email,presence:true,uniqueness: true
   validates :status, inclusion: {in: %w[active pending resign],message: "invalid status"}
-
 
    
   scope :search_user, ->(search) {

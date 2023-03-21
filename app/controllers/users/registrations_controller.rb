@@ -9,6 +9,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     params.require(:user).permit(:email, :password,
-    user_detail_attributes: [:first_name, :last_name, :phone_number, :designation, :date_of_birth],  role_attributes: [:role])
- end
+       user_detail_attributes: [:first_name, :last_name, :phone_number, :designation, :date_of_birth],
+       role_attributes: [:role])
+  end
 end
+
