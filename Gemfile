@@ -9,15 +9,6 @@ gem "rails", "~> 7.0.4", ">= 7.0.4.2"
 # Use sqlite3 as the database for Active Record
 # gem "sqlite3", "~> 1.4"
 
-#gem devise
-gem 'devise'
-
-#gem devise-jwt
-gem 'devise-jwt'
-
-#cancancan
-gem 'cancancan'
-
 #active_model_serializers
 gem 'active_model_serializers', '~> 0.10.2'
 
@@ -46,7 +37,11 @@ gem "bootsnap", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
+gem "devise"
 
+gem "devise-jwt"
+
+gem "cancancan"
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
 
