@@ -17,4 +17,4 @@ facility_manager.create_role(role:"facility_manager")
 
 employee = User.create(emp_id:"PR003",email:"ramesh@prasthana",password:"Prasthana@2023",status:"active")
 employee.create_user_detail(first_name:"Ramesh",last_name:"Nayak",phone_number: 7896541234,designation:"employee",date_of_birth:"30/09/1998")
-facility_manager.create_role(role:"employee")
+employee.create_role(role:"employee")

@@ -10,12 +10,12 @@ class Ability
 
     elsif user&.hr_manager?
 			can :read, User
-			can [:read,:show], Device, user: user
+			can :read, Device, user: user
 			can :update,User
 
     elsif user&.present?
       can :read,Device,user: user
-			can :update, User, id: user.id
+			can :reset_password, User, [:password], id: user.id
 			can :show, User, id: user.id
     end
   end
