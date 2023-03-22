@@ -6,7 +6,8 @@ class ApplicationRecord < ActiveRecord::Base
                   "bag" =>    "https://m.media-amazon.com/images/I/61OwgmN6VyL._UL1500_.jpg",
                   "clothing" => "https://m.media-amazon.com/images/I/31b0YaEm4xL.jpg",
                   "bottle" => "https://m.media-amazon.com/images/I/71XPs4whHSL._SL1500_.jpg",
-                  "mobile" => "https://m.media-amazon.com/images/I/71emcsxsRPL._SX679_.jpg"
+                  "mobile" => "https://m.media-amazon.com/images/I/71emcsxsRPL._SX679_.jpg",
+                  "default" => "https://www.hsvphry.org.in/assets/img/AuthorityMember/image_202208231512_637968643401675127.jpg"
   }
 
 end

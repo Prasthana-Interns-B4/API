@@ -1,42 +1,39 @@
 class V1::DevicesController < ApplicationController
-  # load_and_authorize_resource
+  before_action :user_authorization
+  load_and_authorize_resource
+  before_action :device_search,only: %i[destroy update show]
+
   def index
-    @device = Device.all #.accessible_by(current_ability)
-    render json: @device
+    devices = Device.accessible_by(current_ability).search_bar(params[:search])
+    render json: devices,status: :ok,each_serializer: DeviceSerializer,include: ['user.user_detail']
   end
 
   def show
-    @device = device_search
-    render json: @device
+    render json: @device,status: :ok,each_serializer: DeviceSerializer,include: ['user.user_detail']
   end
 
   def create
-    @device = Device.create(parameters)
-    @result = @device.persisted? ? @device : @device.errors
-    render json: @result
+    device = Device.create!(device_params)
+    render json: device,status: :created,each_serializer: DeviceSerializer
   end
 
   def update
-    @device = device_search.update(parameters)
-    render json: device_search
+    @device.update!(device_params)
+    render json: @device,status: :created,each_serializer: DeviceSerializer
   end
 
   def destroy
-    @device = device_search.destroy
-    render json: {message: "Successfully removed from Devices"},status: 200
-  end
-
-  def search
-    @device = Device.search_bar(params[:query])
-    render json: @device
+    @device.destroy
+    head :no_content
   end
 
   private
-  def device_search
-    Device.find(params[:id])
+  #can can can gem passing mass params
+  def device_params
+    params.permit(:name,:device_type,:os,:category,:user_id)
   end
 
-  def parameters
-    params.permit(:name,:device_type,:build,:category,:user_id)
+  def device_search
+    @device = Device.find(params[:id])
   end
 end

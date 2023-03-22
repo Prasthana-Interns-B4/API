@@ -9,10 +9,9 @@ Rails.application.routes.draw do
       }
 
   scope module: :v1 do
-    resources :devices do
-    get 'search' => 'devices#search',on: :collection
-    end
+    resources :devices
   end
+
 	
 	scope module: :v1 do
 		resources :users do

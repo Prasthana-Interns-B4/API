@@ -1,30 +1,41 @@
 class ApplicationController < ActionController::API
-  alias_method :current_user, :current_user
-  rescue_from PG::NotNullViolation do |exception|
-    render json: exception.error
-  end
-  rescue_from ActiveRecord::RecordNotFound do |e|
-    render json: {status: 404, error: e} # status: 404 => not_found
-  end
-  rescue_from NoMethodError do |e|
-    render json: {status: 500, error: e}, status: 500 # unauthorized
-  end
-  rescue_from RuntimeError do |e|
-    render json: {error: e} # status: 500 => internal_server_error
-  end
-  rescue_from ActionDispatch::Http::Parameters::ParseError do |exception|
-    render json: {error: exception}
-  end
-	rescue_from CanCan::AccessDenied do |e|
-		render json: {error: e}, status: 401 # status: 401 => unauthorized
-	end
-	rescue_from JWT::ExpiredSignature do |e|
-		render json: {error: e.message} # status: 500 => internal_server_error
-	end
 
-  def get_current_user
-    jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1], Rails.application.secret_key_base).first
-    User.find(jwt_payload['sub'])
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: {error: exception},status: :unauthorized
+  end
+  rescue_from PG::NotNullViolation || ActiveRecord::RecordInvalid  do |exception|
+    render json: {error: exception.error},status: :not_found
+  end
+  rescue_from ActiveRecord::RecordNotFound || NoMethodError do |exception|
+    render json: {status: 401,messages: "No record found"},status: :not_found
+  end
+  rescue_from RuntimeError do |exception|
+    render json: {error: exception},status: :no_content
+  end
+
+
+  rescue_from ActiveRecord::RecordNotSaved do |exception|
+    render json: { message: exception.message}
+  end
+
+  rescue_from ActiveRecord::RecordInvalid do |exception|
+    render json: { message: exception.message }
+  end
+
+  def user_authorization
+    raise "You are not authorize or Token not present." if current_user != token_user
+  end
+
+  def token_user
+    if token_present?
+      jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1], Rails.application.secret_key_base).first
+      User.find(jwt_payload['sub'])
+    end
+  end
+
+
+  def token_present?
+    request.headers['Authorization'].present?
   end
 
 end

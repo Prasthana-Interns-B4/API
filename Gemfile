@@ -9,19 +9,10 @@ gem "rails", "~> 7.0.4", ">= 7.0.4.2"
 # Use sqlite3 as the database for Active Record
 # gem "sqlite3", "~> 1.4"
 
-#gem devise
-gem 'devise'
-
-#gem devise-jwt
-gem 'devise-jwt'
-
-#cancancan
-gem 'cancancan'
-
 #active_model_serializers
 gem 'active_model_serializers', '~> 0.10.2'
 
-# gem postgres sql
+#gem postgres sql
 gem 'pg'
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
@@ -46,18 +37,26 @@ gem "bootsnap", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
+gem "devise"
 
+gem "devise-jwt"
+
+gem "cancancan"
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
-  gem 'rspec-rails', '~> 6.0.0'
+  gem "rspec"
+  gem "factory_bot_rails"
+  gem "faker"
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
+    gem lib, git: "https://github.com/rspec/#{lib}.git", branch: 'main'
+  end
 end
-
