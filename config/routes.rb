@@ -9,7 +9,12 @@ Rails.application.routes.draw do
       }
 
   scope module: :v1 do
-    resources :devices
+    resources :devices do
+      member do
+        put 'assign'
+        put  'unassign'
+      end
+    end
   end
 
 
