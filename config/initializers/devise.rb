@@ -14,7 +14,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '701c8de3582f93ce391dabb4cf8eafa8692b06c24ee280b7e5bcce10fe4ff91738243615abf24af608f3e95c342e3f9a874c5aadbef8c39726a068aad95a2575'
+  # config.secret_key = '63d6c84b7a0b83836b695b67b9f8eaf00198179e2be68847d9fced46ba74c5052b5b94d84d9212242fa07a64c42e1a782c3d03345a62cf26c2d68b5c8a35e375'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -46,7 +46,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [:email]
+  config.authentication_keys = [:emp_id]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -63,7 +63,7 @@ Devise.setup do |config|
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
-  config.strip_whitespace_keys = [:email]
+  config.strip_whitespace_keys = [:emp_id]
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
@@ -126,7 +126,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = 'c2459ef68e122321b182ecc750e704e82cfd51809763d0afebb23884a5c2c2cb0e9ac440f04c2b23eb3e138c363ab69a530efa10fab977225b1e59aead7119cc'
+  # config.pepper = 'fc72b11af4f0fb35e6c5f2e64e2915415e40a7dc4c91dc24ae0040f19f493bfec10e5106df829aee10d64ad9a41e1491615a703fe7e7f2441443aa08f8cead79'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -224,7 +224,7 @@ Devise.setup do |config|
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
   # change their passwords.
-  config.reset_password_within = 6.hours
+  # config.reset_password_within = 6.hours
 
   # When set to false, does not sign a user in automatically after their password is
   # reset. Defaults to true, so a user is signed in automatically after a reset.
@@ -311,14 +311,13 @@ Devise.setup do |config|
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
   config.jwt do |jwt|
-      jwt.secret = Rails.application.secret_key_base
-      jwt.dispatch_requests =[
-        ['POST',%r{^/users/sign_in$}]
-      ]
-      jwt.revocation_requests =[
-        ['DELETE',%r{^/users/sign_out$}]
-      ]
-      jwt.expiration_time = 120.minutes.to_i
-    end
-
+    jwt.secret = Rails.application.secret_key_base
+    jwt.dispatch_requests = [
+      ['POST', %r{^/users/sign_in$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/users/sign_out$}]
+    ]
+    jwt.expiration_time = 120.minutes.to_i
+  end
 end
