@@ -1,4 +1,28 @@
 class ApplicationController < ActionController::API
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: {error: exception},status: :unauthorized
+  end
+  rescue_from PG::NotNullViolation do |exception|
+    render json: {errors: exception.error},status: :not_found
+  end
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render json: {status: 401,messages: "No record found"},status: :not_found
+  end
+   rescue_from PG::ForeignKeyViolation  do |exception|
+    render json: {error: exception},status: :not_found
+  end
+
+  rescue_from ActiveRecord::RecordNotSaved do |exception|
+    render json: { message: exception.message}
+  end
+
+  rescue_from ActiveRecord::RecordInvalid do |exception|
+    render json: { message: exception.message }
+  end
+
+  def user_authorization
+    raise CanCan::AccessDenied if current_user != token_user
+  end
 
   def token_user
     if token_present?
@@ -7,31 +31,9 @@ class ApplicationController < ActionController::API
     end
   end
 
+
   def token_present?
     request.headers['Authorization'].present?
   end
 
-  def authenticate_user
-    raise CanCan::AccessDenied.new("Authorization Token not present") if current_user != token_user
-  end
-  rescue_from CanCan::AccessDenied do  |exception|
-    render json: {message: exception.message}
-  end
-  rescue_from PG::NotNullViolation do |exception|
-    render json: exception.error
-  end
-  rescue_from ActiveRecord::RecordNotFound do |exception|
-    render json: {status: 401,messages: "No record found"},status: 401
-  end
-  rescue_from NoMethodError do |e|
-    render json: {status: 401,message: "No Record Found"},status: 401
-  end
-  rescue_from RuntimeError do |e|
-    render json: {error: e.error}
-  end
-  rescue_from ActionDispatch::Http::Parameters::ParseError do |exception|
-    render json: {error: "passing parameters passing format"}
-  end
-
-  
 end

@@ -9,10 +9,14 @@ class User< ApplicationRecord
   validates :email,presence:true,uniqueness: true
   validates :status, inclusion: {in: %w[active pending resign],message: "invalid status"}
 
-  scope :search_user, ->(search) {
-   User.joins(:user_detail).where( ["first_name ILIKE ? OR last_name ILIKE ? OR CAST(phone_number AS TEXT) ILIKE ?", 
+   
+  scope :search_user, ->(search) { if search.present?
+    joins(:user_detail).where( ["first_name ILIKE ? OR last_name ILIKE ? OR CAST(phone_number AS TEXT) ILIKE ?", 
      "%#{search}%", "%#{search}%", "%#{search}%"] ).where(status: "active")
- }
+    else
+      where(status: "active")
+    end
+    }
   
   STATUSES = %w[pending active resign]
   STATUSES.each do |st|
@@ -21,7 +25,8 @@ class User< ApplicationRecord
     end
   end
 
-  ROLES = %w[hr_manager facility_manager employee]  
+  ROLES = %w[hr_manager facility_manager employee]
+
   ROLES.each do |role_name|
     define_method "#{role_name}?" do
      self.role.role == role_name

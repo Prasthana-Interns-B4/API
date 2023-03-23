@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_16_121558) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_13_074904) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "devices", force: :cascade do |t|
     t.string "name", null: false
     t.string "device_type", null: false
+    t.string "os"
     t.string "category", null: false
     t.string "tag_no", null: false
-    t.string "os", null: false
-    t.boolean "status", default: false, null: false
     t.string "image_url", null: false
+    t.boolean "status", default: false, null: false
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -30,7 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_16_121558) do
 
   create_table "roles", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "role", default: "employee", null: false
+    t.string "role", default: "user", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_roles_on_user_id"
@@ -61,6 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_16_121558) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "devices", "users"

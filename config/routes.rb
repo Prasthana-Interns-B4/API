@@ -10,22 +10,23 @@ Rails.application.routes.draw do
 
   scope module: :v1 do
     resources :devices do
-    get 'search' => 'devices#search',on: :collection
+      member do
+        put 'assign'
+        put  'unassign'
+      end
     end
   end
-
 
   scope module: :v1 do
     resources :users do
+      post '/create_employee',to:'users#create', on: :collection
+      get 'pending',to:'users#pending', on: :collection
       member do
-        put 'approve', to:  "users#approve"
-        put 'update_by_employee',to: "users#update"
-        delete 'reject' ,to:"users#destroy"
+        put 'approve'
+        delete 'reject',to:'users#destroy'
       end
-      post '/create_employee', to: 'users#create', on: :collection
     end
+
   end
-
-
-
 end
+
