@@ -5,11 +5,11 @@ class V1::DevicesController < ApplicationController
 
   def index
     devices = Device.accessible_by(current_ability).search_bar(params[:search])
-    render json: devices,status: :ok,each_serializer: DeviceSerializer,include: ['user.user_detail']
+    render json: devices,status: :ok,each_serializer: DeviceSerializer, include: '**'
   end
 
   def show
-    render json: @device,status: :ok,each_serializer: DeviceSerializer,include: ['user.user_detail']
+    render json: @device,status: :ok, serializer: DeviceSerializer, include: '**'
   end
 
   def create

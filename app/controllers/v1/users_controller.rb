@@ -6,12 +6,12 @@ class V1::UsersController < ApplicationController
 	# GET /users or /users.json
 	# GET /users?search=s
 	def index
-		@users = params[:search].present? ? User.search(params[:search]) : User.all
+		@users = User.search(params[:search])
 		render json: @users, each_serializer: UserSerializer
 	end
 
 	# GET /users/1 or /users/1.json
-	def show
+	def show	
 		render json: @user, serializer: UserSerializer
 	end
 
@@ -38,7 +38,7 @@ class V1::UsersController < ApplicationController
 
 	private
 	def find_user
-		@user = User.includes(:user_detail, :devices).find(params[:id])
+		@user = User.includes(:user_detail, :devices).where(status: "active").find(params[:id])
 	end
 
 	def user_params

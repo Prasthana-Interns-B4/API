@@ -6,7 +6,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
   accepts_nested_attributes_for :user_detail, :role, update_only: true
 
-	scope :search, ->(search) {joins(:user_detail).where("first_name ILIKE ? OR last_name ILIKE ?","%#{search}%","%#{search}%")}
+	scope :search, 
+					->(search) { 
+						search.present? ? joins(:user_detail).where("first_name ILIKE ? OR last_name ILIKE ?","%#{search}%","%#{search}%").where(status: "active") : where(status: "active")
+						}
 
   def jwt_payload
     super
@@ -20,7 +23,7 @@ class User < ApplicationRecord
     end
   end
 
-  ROLES = %w[hr_manager facility_manager user]
+  ROLES = %w[hr_manager facility_manager employee]
 
   ROLES.each do |role_name|
     define_method "#{role_name}?" do
