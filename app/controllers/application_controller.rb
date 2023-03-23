@@ -2,16 +2,15 @@ class ApplicationController < ActionController::API
   rescue_from CanCan::AccessDenied do |exception|
     render json: {error: exception},status: :unauthorized
   end
-  rescue_from PG::NotNullViolation || ActiveRecord::RecordInvalid  do |exception|
+  rescue_from PG::NotNullViolation do |exception|
     render json: {errors: exception.error},status: :not_found
   end
-  rescue_from ActiveRecord::RecordNotFound || NoMethodError do |exception|
+  rescue_from ActiveRecord::RecordNotFound do |exception|
     render json: {status: 401,messages: "No record found"},status: :not_found
   end
-  rescue_from RuntimeError do |exception|
-    render json: {error: exception},status: :no_content
+   rescue_from PG::ForeignKeyViolation  do |exception|
+    render json: {error: exception},status: :not_found
   end
-
 
   rescue_from ActiveRecord::RecordNotSaved do |exception|
     render json: { message: exception.message}
@@ -22,7 +21,7 @@ class ApplicationController < ActionController::API
   end
 
   def user_authorization
-    raise "You are not authorize or Token not present." if current_user != token_user
+    raise CanCan::AccessDenied if current_user != token_user
   end
 
   def token_user

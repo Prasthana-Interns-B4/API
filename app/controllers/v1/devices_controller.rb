@@ -4,7 +4,7 @@ class V1::DevicesController < ApplicationController
   before_action :device_search,only: %i[destroy update show assign unassign]
 
   def index
-    devices = Device.accessible_by(current_ability).search_bar(params[:search])
+    devices = Device.accessible_by(current_ability).search(params[:search])
     render json: devices,status: :ok,each_serializer: DeviceSerializer,include: ['user.user_detail']
   end
 
@@ -28,7 +28,7 @@ class V1::DevicesController < ApplicationController
   end
 
   def assign
-    @device.update_attribute(:user_id,device_params[:user_id])
+    @device.update!(user_id: device_params[:user_id])
     render json: @device,status: :created,serializer: DeviceSerializer
   end
 
@@ -38,7 +38,7 @@ class V1::DevicesController < ApplicationController
   end
 
   private
-  
+
   def device_params
     params.require(:device).permit(:name,:device_type,:os,:category,:user_id)
   end
