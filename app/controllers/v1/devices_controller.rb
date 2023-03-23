@@ -1,10 +1,10 @@
 class V1::DevicesController < ApplicationController
   before_action :user_authorization
   load_and_authorize_resource
-  before_action :device_search,only: %i[destroy update show assign unassign]
+  before_action :device_search, only: %i[destroy update show assign unassign]
 
   def index
-    devices = Device.accessible_by(current_ability).search(params[:search])
+    devices = Device.search(params[:search]&.strip)
     render json: devices, status: :ok, each_serializer: DeviceSerializer, include: '**'
   end
 
@@ -29,7 +29,7 @@ class V1::DevicesController < ApplicationController
 
   def assign
     @device.update!(user_id: device_params[:user_id])
-    render json: @device, status: :created, serializer: DeviceSerializer, include: '**'
+    render json: @device, status: :ok, serializer: DeviceSerializer, include: '**'
   end
 
   def unassign

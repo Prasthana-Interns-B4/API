@@ -9,9 +9,9 @@ class Ability
       can :read, Role
 			can :reset_password, User, id: user.id
     elsif user&.hr_manager?
-      can :read, Device, user: user
+      can :show, Device, user: user
 			can :reset_password, User, id: user.id
-			can :manage,User
+			can [:create,:read,:update,:destroy,:pending,:approve],User
     elsif user&.employee?
       can :show, Device, user: user
       can :show, User,id: user.id

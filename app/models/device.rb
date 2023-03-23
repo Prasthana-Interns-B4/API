@@ -9,7 +9,7 @@ class Device < ApplicationRecord
   attribute :category, :string, default: "Electronics"
   attribute :image_url, :string, default: @@image_urls["default"]
   scope :search,
-        ->(search) {
+        ->(search) { !search ? Device.all :
           where(
             "name ILIKE ? OR tag_no ILIKE ? OR device_type ILIKE ?",
             "%#{search}%",
@@ -19,7 +19,7 @@ class Device < ApplicationRecord
         }
 
   def image_url
-    self.image_url = @@image_urls[self.device_type.downcase]
+    self.image_url = @@image_urls[self.device_type&.downcase]
   end
 
   def tag_no_assign
