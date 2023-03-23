@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_092420) do
     t.bigint "employee_id"
     t.string "name", null: false
     t.string "device_type", null: false
-    t.string "build", null: false
+    t.string "os"
     t.string "category", null: false
     t.string "tag_no"
     t.boolean "status", default: false, null: false

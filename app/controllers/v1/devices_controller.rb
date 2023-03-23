@@ -1,37 +1,49 @@
 class V1::DevicesController < ApplicationController
+  before_action :user_authorization
+  load_and_authorize_resource
+  before_action :device_search,only: %i[destroy update show assign unassign]
 
   def index
-    @device = Device.all
-    render json: @device
+    devices = Device.accessible_by(current_ability).search(params[:search])
+    render json: devices,status: :ok,each_serializer: DeviceSerializer,include: ['user.user_detail']
   end
 
   def show
-    @device = Device.where(id: params[:id])
-    render json: @device
+    render json: @device,status: :ok,serializer: DeviceSerializer,include: ['user.user_detail']
   end
 
   def create
-    @device = Device.create(parameters)
-    @result = @device.persisted? ? @device : "Providing data which existing in database"
-    render json: @result
+    device = Device.create!(device_params)
+    render json: device,status: :created,serializer: DeviceSerializer
   end
 
-
   def update
-    @device = Device.where(id: )&.update(parameters)
-    render json: @device
+    @device.update!(device_params)
+    render json: @device,status: :created,serializer: DeviceSerializer
   end
 
   def destroy
-    @device =
-    render json: {message: "Successfully removed from database"} if @device.destroy
+    @device.destroy
+    head :no_content
+  end
+
+  def assign
+    @device.update!(user_id: device_params[:user_id])
+    render json: @device,status: :created,serializer: DeviceSerializer
+  end
+
+  def unassign
+    @device.update!(user_id: nil)
+    head :ok
   end
 
   private
-  def device_id
-    Device.find(id: params[:id])
+
+  def device_params
+    params.require(:device).permit(:name,:device_type,:os,:category,:user_id)
   end
-  def parameters
-    params.permit(:name,:device_type,:build,:category,:tag_no,:employee_id)
+
+  def device_search
+    @device = Device.find(params[:id])
   end
 end
