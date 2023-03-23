@@ -7,13 +7,16 @@ class Ability
       can :read, User
       can :read, UserDetail
       can :read, Role
+			can :reset_password, User, id: user.id
     elsif user&.hr_manager?
       can :read, Device, user: user
-      can :manage,User
+			can :reset_password, User, id: user.id
+			can :manage,User
     elsif user&.employee?
       can :show, Device, user: user
-      can :read, User,id: user.id
+      can :show, User,id: user.id
       can :update,User,id: user.id
+			can :reset_password, User, id: user.id
     end
   end
 end
