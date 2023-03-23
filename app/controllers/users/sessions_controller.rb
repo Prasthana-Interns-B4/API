@@ -4,15 +4,16 @@ class Users::SessionsController < Devise::SessionsController
   def create
     user = User.find_by!(emp_id: params[:user][:emp_id])
     if user.resign?
-      render json: { message: "You are not allowed here" }, status: :unauthorized
+      raise CanCan::AccessDenied
     else
       super
     end
   end
+
   private
 
   def respond_with(user, options={})
-    render json: current_user, status: :ok
+    render json: current_user, status: :ok, serializer: UserSignInSerializer
   end
 
   def respond_to_on_destroy

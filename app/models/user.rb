@@ -4,7 +4,6 @@ class User< ApplicationRecord
   has_one  :role, dependent: :destroy
   has_many :devices, dependent: :nullify
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
- 
   accepts_nested_attributes_for :user_detail, :role, update_only: true
   validates :email,presence:true,uniqueness: true
   validates :status, inclusion: {in: %w[active pending resign],message: "invalid status"}
@@ -17,6 +16,10 @@ class User< ApplicationRecord
       where(status: "active")
     end
     }
+  
+  def on_jwt_dispatch(token, payload)
+    @auth_token = token
+  end
   
   STATUSES = %w[pending active resign]
   STATUSES.each do |st|
@@ -41,4 +44,9 @@ class User< ApplicationRecord
     self.emp_id = "PR#{self.id.to_s.rjust(3, '0')}"
     self.status = "active"
   end
+
+  def auth_token
+    @auth_token
+  end
+
 end
