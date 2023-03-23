@@ -10,7 +10,7 @@ class ApplicationController < ActionController::API
     render json: {status: 401,messages: "No record found"},status: :not_found
   end
   rescue_from RuntimeError do |exception|
-    render json: {error: exception},status: :no_content
+    render json: { error: exception }, status: :unauthorized
   end
 
 
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::API
   end
 
   def user_authorization
-    raise "You are not authorize or Token not present." if current_user != token_user
+    raise CanCan::AccessDenied if current_user != token_user
   end
 
   def token_user

@@ -8,12 +8,11 @@ class Ability
 			can :update, User, id: user.id
 			can :reset_password, User, id: user.id
     elsif user&.hr_manager?
-      can :read, Device, user_id: user.id
-			can :read, User
-			can :update, User
+      can :read, Device, user: user
+			can :manage, User
 			can :reset_password, User, id: user.id
-    elsif user&.present?
-      can :read, Device, user_id: user.id
+    elsif user&.employee?
+      can :read, Device, user: user
 			can :show, User, id: user.id
 			can :update, User, id: user.id
 			can :reset_password, User, id: user.id

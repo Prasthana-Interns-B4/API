@@ -12,7 +12,7 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def respond_with(user, options={})
-    render json: current_user, status: :ok
+    render json: current_user, serializer: UserSigninSerializer
   end
 
   def respond_to_on_destroy

@@ -5,6 +5,9 @@ class User < ApplicationRecord
   has_many :devices
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
   accepts_nested_attributes_for :user_detail, :role, update_only: true
+
+	scope :search, ->(search) {joins(:user_detail).where("first_name ILIKE ? OR last_name ILIKE ?","%#{search}%","%#{search}%")}
+
   def jwt_payload
     super
   end

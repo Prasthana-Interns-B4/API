@@ -12,13 +12,11 @@ class V1::UsersController < ApplicationController
 
 	# GET /users/1 or /users/1.json
 	def show
-		render json: @user, each_serializer: UserSerializer
+		render json: @user, serializer: UserSerializer
 	end
 
 	# PUT/PATCH /users/forgot_password or /users/forgot_password.json
 	def forgot_password
-		# x=params.require(:user).permit(:emp_id)
-		# debugger
 		@user = User.find_by!(emp_id: params[:user][:emp_id])
 		if @user.present?
 			@user.update!(password: params[:user][:password])
