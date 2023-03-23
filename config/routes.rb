@@ -23,7 +23,6 @@ Rails.application.routes.draw do
         delete 'reject' ,to:"users#destroy"
       end
       post '/create_employee', to: 'users#create', on: :collection
-      get '/profile', to: 'users#profile',on: :collection
     end
   end
 

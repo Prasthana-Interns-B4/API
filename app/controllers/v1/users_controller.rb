@@ -1,10 +1,15 @@
 class V1::UsersController < ApplicationController
+    before_action :authenticate_user
     before_action :find_user, except: [:index , :create]
-    # before_action :authenticate_user
     load_and_authorize_resource 
 
     def index
       users = params[:search].present? ? User.search_user(params[:search]) : User.where(status: "active")
+      render json: user
+    end
+
+    def pending
+      users=User.where(status: "pending")
       render json: users
     end
 
@@ -40,9 +45,7 @@ class V1::UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(
-        :email, 
-        :password,
+      params.require(:user).permit(:email, :password,
         user_detail_attributes: [:first_name, :last_name, :phone_number, :designation, :date_of_birth], 
         role_attributes: [:role]
       )

@@ -2,7 +2,7 @@ class User< ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
   has_one  :user_detail
   has_one  :role, dependent: :destroy
-  has_many :devices
+  has_many :devices, dependent: :nullify
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
  
   accepts_nested_attributes_for :user_detail, :role, update_only: true
@@ -31,19 +31,9 @@ class User< ApplicationRecord
   def jwt_payload
    super
   end
-  
-  def generate_emp_id
-    self.emp_id = "PR#{self.id.to_s.rjust(3, '0')}"
-    self.save
-  end
-
-  def assign_status
-    self.status = "active"
-    self.save
-  end
-
+ 
   def approve_user
-    generate_emp_id
-    assign_status
+    self.emp_id = "PR#{self.id.to_s.rjust(3, '0')}"
+    self.status = "active"
   end
 end
