@@ -17,7 +17,7 @@ class User < ApplicationRecord
     end
   end
 
-  ROLES = %w[hr_manager facility_manager user]
+  ROLES = %w[hr_manager facility_manager employee]
 
   ROLES.each do |role_name|
     define_method "#{role_name}?" do
