@@ -5,7 +5,7 @@ class Device < ApplicationRecord
 
   validates :tag_no, uniqueness: true
   validates :name, presence: true, length: { minimum: 3 }
-  validates :os, length: { minimum: 3 }
+  
   attribute :category, :string, default: "Electronics"
   attribute :image_url, :string, default: @@image_urls["default"]
   scope :search,
