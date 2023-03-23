@@ -5,7 +5,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       user = User.create!(user_params)
       render json: user, status: :created, serializer: UserSerializer
   end
-
   private
 
   def user_params

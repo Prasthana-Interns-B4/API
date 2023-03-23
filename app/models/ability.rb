@@ -9,8 +9,11 @@ class Ability
       can :read, Role
     elsif user&.hr_manager?
       can :read, Device, user: user
-    elsif user&.present?
-      can :read, Device, user: user
+      can :manage,User
+    elsif user&.employee?
+      can :show, Device, user: user
+      can :read, User,id: user.id
+      can :update,User,id: user.id
     end
   end
 end
