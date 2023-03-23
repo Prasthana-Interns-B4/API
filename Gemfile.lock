@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rspec/rspec-core.git
-  revision: 5715c8343d3df1214d2de80491a252e59209e434
+  revision: a665896882ec941c4f3a19200fb23327dfd2ebff
   branch: main
   specs:
     rspec-core (3.13.0.pre)
@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-expectations.git
-  revision: 3c3f8c0a617f28fbb54fafca0143db1071e89c6e
+  revision: c052e638cc70a6cb85a2004085bb87dc00f20d19
   branch: main
   specs:
     rspec-expectations (3.13.0.pre)
@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-mocks.git
-  revision: 995482bdf4a2088c2a1c12235945eb00db7faa97
+  revision: 96efb7a66c9167b198577ce352d27f8ffed698a2
   branch: main
   specs:
     rspec-mocks (3.13.0.pre)
@@ -255,7 +255,8 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  active_model_serializers
+
+  active_model_serializers (~> 0.10.2)
   bootsnap
   cancancan
   debug

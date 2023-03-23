@@ -2,7 +2,7 @@ class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
   has_one :user_detail, dependent: :destroy
   has_one :role, dependent: :destroy
-  has_many :devices, dependent: :nullify
+  has_many :devices
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
   accepts_nested_attributes_for :user_detail, :role
 
