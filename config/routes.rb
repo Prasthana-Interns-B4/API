@@ -1,11 +1,8 @@
 Rails.application.routes.draw do
-<<<<<<< HEAD
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
   # root "articles#index"
-=======
->>>>>>> dev
   devise_for :users, controllers: {
         sessions: 'users/sessions',
         registrations: 'users/registrations'
@@ -20,7 +17,6 @@ Rails.application.routes.draw do
     end
   end
 
-<<<<<<< HEAD
 	
 	scope module: :v1 do
 		resources :users do
@@ -29,22 +25,5 @@ Rails.application.routes.draw do
 		end
 	end
 	
-=======
-  scope module: :v1 do
-    resources :users do
-			collection do
-      	post '/create_employee',to:'users#create'
-      	get 'pending',to:'users#pending'
-				put 'forgot_password',to: 'users#forgot_password'
-      end
-			member do
-        put 'approve'
-        delete 'reject',to:'users#destroy'
-				put 'reset_password', to:'users#reset_password'
-      end
-    end
-
-  end
->>>>>>> dev
 end
 

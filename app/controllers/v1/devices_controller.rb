@@ -4,21 +4,12 @@ class V1::DevicesController < ApplicationController
   before_action :device_search,only: %i[destroy update show assign unassign]
 
   def index
-<<<<<<< HEAD
     devices = Device.accessible_by(current_ability).search_bar(params[:search])
     render json: devices,status: :ok,each_serializer: DeviceSerializer, include: '**'
   end
 
   def show
     render json: @device,status: :ok, serializer: DeviceSerializer, include: '**'
-=======
-    devices = Device.accessible_by(current_ability).search(params[:search])
-    render json: devices,status: :ok,each_serializer: DeviceSerializer,include: ['user.user_detail']
-  end
-
-  def show
-    render json: @device,status: :ok,serializer: DeviceSerializer,include: ['user.user_detail']
->>>>>>> dev
   end
 
   def create
