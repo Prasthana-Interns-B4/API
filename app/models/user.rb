@@ -10,12 +10,9 @@ class User< ApplicationRecord
   validates :status, inclusion: {in: %w[active pending resign],message: "invalid status"}
 
    
-  scope :search_user, ->(search) { if search.present?
-    joins(:user_detail).where( ["first_name ILIKE ? OR last_name ILIKE ? OR CAST(phone_number AS TEXT) ILIKE ?", 
-     "%#{search}%", "%#{search}%", "%#{search}%"] ).where(status: "active")
-    else
-      where(status: "active")
-    end
+  scope :search, ->(search) { search.present? ?
+    joins(:user_detail).where("first_name ILIKE ? OR last_name ILIKE ? OR CAST(phone_number AS TEXT) ILIKE ?", 
+     "%#{search}%", "%#{search}%", "%#{search}%").where(status: "active") : where(status: "active")
     }
   
   STATUSES = %w[pending active resign]
@@ -38,7 +35,6 @@ class User< ApplicationRecord
   end
  
   def approve_user
-    self.emp_id = "PR#{self.id.to_s.rjust(3, '0')}"
-    self.status = "active"
+    self.update!(emp_id: "PR#{self.id.to_s.rjust(3, '0')}",status: "active")
   end
 end
