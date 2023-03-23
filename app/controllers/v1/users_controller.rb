@@ -1,10 +1,10 @@
 class V1::UsersController < ApplicationController
-    before_action :user_authorization, except: %i[forgot_password]
-    before_action :find_user, except: %i[index create pending forgot_password]
-    load_and_authorize_resource :except => %i[forgot_password]
+    before_action :authenticate_user
+    before_action :find_user, except: [:index , :create, :pending]
+    load_and_authorize_resource 
 
     def index
-      users = User.search(params[:search])
+      users = User.search_user(params[:search])
       render json: users,each_serializer: UserSerializer
     end
 
@@ -24,21 +24,6 @@ class V1::UsersController < ApplicationController
       render json:@user,status: :ok,serializer: UserSerializer
     end
 
-		# PUT/PATCH /users/forgot_password or /users/forgot_password.json
-		def forgot_password
-			@user = User.find_by!(emp_id: params[:user][:emp_id])
-			if @user.present?
-				@user.update!(password: params[:user][:password])
-				head :ok
-			end
-		end
-
-		# PATCH/PUT /users/1/reset_password or /users/1/reset_password.json
-		def reset_password
-			@user.update!(user_params)
-			render json: {message: "password updated successfully"}
-		end
-
     def destroy 
       @user.devices.delete_all 
       @user.update!(status: "resign")
@@ -57,7 +42,7 @@ class V1::UsersController < ApplicationController
 
   private
     def find_user 
-      @user = User.find(params[:id])
+      @user = User.find(params[:id]) 
     end
 
     def user_params
