@@ -2,6 +2,7 @@ class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
   has_one :user_detail, dependent: :destroy
   has_one :role, dependent: :destroy
+  has_many :devices
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
   accepts_nested_attributes_for :user_detail, :role
   def jwt_payload
@@ -16,7 +17,7 @@ class User < ApplicationRecord
     end
   end
 
-  ROLES = %w[hr_manager facility_manager user]
+  ROLES = %w[hr_manager facility_manager employee]
 
   ROLES.each do |role_name|
     define_method "#{role_name}?" do

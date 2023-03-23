@@ -17,7 +17,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_074904) do
   create_table "devices", force: :cascade do |t|
     t.string "name", null: false
     t.string "device_type", null: false
-    t.string "build", null: false
+    t.string "os"
     t.string "category", null: false
     t.string "tag_no", null: false
     t.string "image_url", null: false
@@ -49,9 +49,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_074904) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
     t.string "emp_id"
-    t.string "email", null: false
-    t.string "encrypted_password", default: "Prasthana@2023", null: false
     t.string "jti", null: false
     t.string "status", default: "pending", null: false
     t.string "reset_password_token"
