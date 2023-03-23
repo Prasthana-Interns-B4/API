@@ -7,6 +7,9 @@ class ApplicationController < ActionController::API
     end
   end
 
+  rescue_from CanCan::AccessDenied do | exception |
+    render json: exception.message, status: :unauthorized
+  end
 
   rescue_from ActiveRecord::RecordNotSaved do |exception|
     render json: { message: exception.message}

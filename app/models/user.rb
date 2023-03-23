@@ -2,11 +2,16 @@ class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
   has_one :user_detail, dependent: :destroy
   has_one :role, dependent: :destroy
+  has_many :devices, dependent: :nullify
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
   accepts_nested_attributes_for :user_detail, :role
-  
+
   def jwt_payload
     super
+  end
+
+  def on_jwt_dispatch(token, payload)
+    @auth_token = token
   end
 
   STATUSES = %w[pending active resign]
@@ -17,7 +22,7 @@ class User < ApplicationRecord
     end
   end
 
-  ROLES = %w[hr_manager facility_manager user]
+  ROLES = %w[hr_manager facility_manager employee]
 
   ROLES.each do |role_name|
     define_method "#{role_name}?" do
@@ -28,4 +33,9 @@ class User < ApplicationRecord
   def generate_emp_id
     "PR#{self.id.to_s.rjust(3, '0')}"
   end
+
+  def auth_token
+    @auth_token
+  end
+
 end

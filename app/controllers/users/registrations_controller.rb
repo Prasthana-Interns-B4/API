@@ -3,7 +3,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
       user = User.create!(user_params)
-      render json: user
+      render json: user, status: :created, serializer: UserSerializer
   end
 
   private
