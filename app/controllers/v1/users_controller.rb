@@ -1,20 +1,26 @@
 class V1::UsersController < ApplicationController
-    before_action :find_user, except: [:index , :create]
+    before_action :find_user, except: [:index , :create, :pending]
     load_and_authorize_resource 
 
     def index
-      users = params[:search].present? ? User.search_user(params[:search]) : User.where(status: "active")
-      render json: users
+      users = User.search_user(params[:search])
+      render json: users,each_serializer: UserSerializer
     end
+
+    def pending
+      users= User.where(status: "pending")
+      render json: users,each_serializer: UserSerializer
+    end
+
 
     def create
       user = User.create!(user_params)
       user.approve_user
-      render json: user, status: :created
+      render json: user, status: :created,serializer: UserSerializer
     end
  
     def show 
-      render json:@user,status: :ok
+      render json:@user,status: :ok,serializer: UserSerializer
     end
 
     def destroy 
@@ -25,7 +31,7 @@ class V1::UsersController < ApplicationController
 
     def update 
       @user.update!(user_params)
-      render json: { user: @user,status: :ok}
+      render json: { user: @user,status: :ok},each_serializer: UserSerializer
     end
 
     def approve
