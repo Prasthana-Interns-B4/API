@@ -17,5 +17,16 @@ Rails.application.routes.draw do
     end
   end
 
+  scope module: :v1 do
+    resources :users do
+      post '/create_employee',to:'users#create', on: :collection
+      get 'pending',to:'users#pending', on: :collection
+      member do
+        put 'approve'
+        delete 'reject',to:'users#destroy'
+      end
+    end
 
+  end
 end
+

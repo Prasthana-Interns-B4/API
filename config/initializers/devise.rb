@@ -14,6 +14,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
+
   # config.secret_key = '63d6c84b7a0b83836b695b67b9f8eaf00198179e2be68847d9fced46ba74c5052b5b94d84d9212242fa07a64c42e1a782c3d03345a62cf26c2d68b5c8a35e375'
 
   # ==> Controller configuration
@@ -63,6 +64,7 @@ Devise.setup do |config|
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
+
   config.strip_whitespace_keys = [:emp_id]
 
   # Tell if authentication through request.params is enabled. True by default.
@@ -226,6 +228,7 @@ Devise.setup do |config|
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
   # change their passwords.
+
   # config.reset_password_within = 6.hours
 
   # When set to false, does not sign a user in automatically after their password is

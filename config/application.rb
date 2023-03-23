@@ -19,6 +19,7 @@ module InventoryApi
     # config.active_record.raise_in_transactional_callbacks = true
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    ActiveModelSerializers.config.adapter= :json
 
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
