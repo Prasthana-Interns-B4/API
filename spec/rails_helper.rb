@@ -24,7 +24,11 @@ require 'rspec/rails'
 # Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 =======
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+<<<<<<< HEAD
 >>>>>>> 9e9a3aa3e6f766fe51cb00af181eb2af9b6e8353
+=======
+>>>>>>> 5d7c798f04a4c37a490db7a3845328e6319d280d
+>>>>>>> dev
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -39,7 +43,11 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 =======
   config.fixture_path = Rails.root.join('spec/fixtures')
+<<<<<<< HEAD
 >>>>>>> 9e9a3aa3e6f766fe51cb00af181eb2af9b6e8353
+=======
+>>>>>>> 5d7c798f04a4c37a490db7a3845328e6319d280d
+>>>>>>> dev
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

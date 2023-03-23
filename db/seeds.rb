@@ -28,3 +28,6 @@ facility_manager.devices.create(name:"Lenovo-ideapad",device_type:"laptop",os:"w
 facility_manager.devices.create(name:"iphone-14Promax",device_type:"mobile",os:"ios",category:"electronics")
 
 
+employee = User.create(emp_id:"PR003",email:"satya@prasthana.com",password:"Prasthana@2023",status:"active")
+employee.create_user_detail(first_name:"satya",last_name:"maharan",phone_number: 7780152027,designation:"employee",date_of_birth:"16/03/1999")
+employee.create_role(role:"employee")
