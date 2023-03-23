@@ -1,5 +1,7 @@
 class UserDetail < ApplicationRecord
-  belongs_to :user
+     belongs_to :user
+
+
    validates :first_name,:last_name,presence: true, format: {with: /\A[a-zA-Z]+\z/,
                                                             message: "only allows letters" }
    validates :phone_number,presence: true,uniqueness: true,numericality: {only_integer:true},length:{is:10},

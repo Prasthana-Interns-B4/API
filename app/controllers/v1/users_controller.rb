@@ -1,5 +1,6 @@
 class V1::UsersController < ApplicationController
     before_action :find_user, except: [:index , :create]
+    # before_action :authenticate_user
     load_and_authorize_resource 
 
     def index
@@ -24,7 +25,7 @@ class V1::UsersController < ApplicationController
     end
 
     def update 
-      @user.update!(user_params)
+      @user.update!( user_params)
       render json: { user: @user,status: :ok}
     end
 
@@ -38,9 +39,12 @@ class V1::UsersController < ApplicationController
       @user = User.find(params[:id]) 
     end
 
-   def user_params
-      params.require(:user).permit(:email, :password,
-      user_detail_attributes: [:first_name, :last_name, :phone_number, :designation, :date_of_birth],  role_attributes: [:role])
-   end
-
+    def user_params
+      params.require(:user).permit(
+        :email, 
+        :password,
+        user_detail_attributes: [:first_name, :last_name, :phone_number, :designation, :date_of_birth], 
+        role_attributes: [:role]
+      )
+    end
 end
