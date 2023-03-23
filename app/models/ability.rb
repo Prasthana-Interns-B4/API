@@ -10,7 +10,7 @@ class Ability
     elsif user&.hr_manager?
       can :read, Device, user: user
     elsif user&.present?
-      can :read, :all
+      can :read, Device, user: user
     end
   end
 end
