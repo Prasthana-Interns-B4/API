@@ -1,15 +1,15 @@
 class Device < ApplicationRecord
   belongs_to :user, optional: true
   before_create :status, :image_url, :tag_no_assign
-  before_update :status, :image_url
+  before_update :status, :image_url,:check_user_status
 
   validates :tag_no, uniqueness: true
   validates :name, presence: true, length: { minimum: 3 }
-  validates :os, length: { minimum: 3 }
+
   attribute :category, :string, default: "Electronics"
   attribute :image_url, :string, default: @@image_urls["default"]
   scope :search,
-        ->(search) { !search ? Device.all :
+        ->(search) { search.blank? ? Device.all :
           where(
             "name ILIKE ? OR tag_no ILIKE ? OR device_type ILIKE ?",
             "%#{search}%",
@@ -17,6 +17,10 @@ class Device < ApplicationRecord
             "%#{search}%"
           )
         }
+
+  def check_user_status
+    raise NoMethodError.new("User is still not active") if self.status != "active"
+  end
 
   def image_url
     self.image_url = @@image_urls[self.device_type&.downcase]
