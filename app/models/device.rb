@@ -1,7 +1,7 @@
 class Device < ApplicationRecord
   belongs_to :user, optional: true
   before_create :status, :image_url, :tag_no_assign
-  before_update :status, :image_url,:check_user_status
+  before_update :status, :image_url
 
   validates :tag_no, uniqueness: true
   validates :name, presence: true, length: { minimum: 3 }
@@ -18,8 +18,8 @@ class Device < ApplicationRecord
           )
         }
 
-  def check_user_status
-    raise NoMethodError.new("User is still not active") if self.status != "active"
+  def user_active(id)
+      raise CanCan::AccessDenied.new("Not an active user") unless User.find(id).active?
   end
 
   def image_url

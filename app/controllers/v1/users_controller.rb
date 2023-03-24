@@ -37,13 +37,13 @@ class V1::UsersController < ApplicationController
 
 	# PATCH/PUT /users/1/reset_password or /users/1/reset_password.json
 	def reset_password
-		@user.update!(user_params)
-		render json: {message: "password updated successfully"}
+		@user.update!(password: params[:user][:password])
+		head :ok
 	end
 
 	# DELETE /users/1/reject or /users/1/reject.json
 	def destroy 
-		@user.resign? ? (render json: {message: "User already resigned"}) : @user.reject_user
+		@user.discard_user
 	end
 
 	# PATCH/PUT /users/1 or /user/1.json
@@ -55,7 +55,7 @@ class V1::UsersController < ApplicationController
 	# PATCH/PUT /user/1/approve or /users/1/approve.json
 	def approve
 		@user.approve_user
-		render json: {status: :ok}
+		head :ok
 	end
 
 private

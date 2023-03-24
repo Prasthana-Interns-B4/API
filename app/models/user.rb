@@ -41,12 +41,14 @@ class User< ApplicationRecord
     self.update!(emp_id: "PR#{self.id.to_s.rjust(3, '0')}",status: "active")
   end
 
-	def reject_user
+	def discard_user
 		if active?
 			devices.delete_all 
 			update!(status: "resign")
 		elsif pending?
 			destroy
+		else
+			raise CanCan::AccessDenied.new("Not an active user")
 		end
 	end
 
