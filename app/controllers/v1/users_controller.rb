@@ -20,7 +20,7 @@ class V1::UsersController < ApplicationController
 		render json: user, status: :created,serializer: UserSerializer
 	end
 
-	def show 
+	def show
 		render json:@user,status: :ok,serializer: UserSerializer
 	end
 
@@ -35,14 +35,14 @@ class V1::UsersController < ApplicationController
 
 	# PATCH/PUT /users/1/reset_password or /users/1/reset_password.json
 	def reset_password
-		@user.update!(user_params)
+		@user.update!(password: params[:user][:password])
 		render json: {message: "password updated successfully"}
 	end
 
-	def destroy 
-		@user.devices.delete_all 
+	def destroy
+		@user.devices.delete_all
 		@user.update!(status: "resign")
-		head :no_content 
+		head :no_content
 	end
 
 	def update
@@ -56,13 +56,13 @@ class V1::UsersController < ApplicationController
 	end
 
 private
-	def find_user 
+	def find_user
 		@user = User.find(params[:id])
 	end
 
 	def user_params
 		params.require(:user).permit(:email, :password,
-			user_detail_attributes: [:first_name, :last_name, :phone_number, :designation, :date_of_birth], 
+			user_detail_attributes: [:first_name, :last_name, :phone_number, :designation, :date_of_birth],
 			role_attributes: [:role]
 		)
 	end
