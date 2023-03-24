@@ -43,9 +43,7 @@ class V1::UsersController < ApplicationController
 
 	# DELETE /users/1/reject or /users/1/reject.json
 	def destroy 
-		return render json: {message: "User already resigned"} unless !@user.resign?
-		@user.reject_user
-		head :no_content
+		@user.resign? ? (render json: {message: "User already resigned"}) : @user.reject_user
 	end
 
 	# PATCH/PUT /users/1 or /user/1.json
