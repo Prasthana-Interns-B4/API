@@ -5,7 +5,6 @@ class Ability
     if user&.facility_manager?
       can :manage, Device
       can :read, User
-      can :read, Role
 			can :reset_password, User, id: user.id
     elsif user&.hr_manager?
       can :show, Device, user: user
