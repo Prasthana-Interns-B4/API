@@ -28,6 +28,7 @@ class V1::DevicesController < ApplicationController
   end
 
   def assign
+    @device.user_active(device_params[:user_id])
     @device.update!(user_id: device_params[:user_id])
     render json: @device, status: :ok, serializer: DeviceSerializer, include: '**'
   end

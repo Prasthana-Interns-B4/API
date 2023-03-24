@@ -3,9 +3,21 @@ class ApplicationController < ActionController::API
     render json: {error: exception},status: :unauthorized
   end
 
+	def not_found_route 
+		render json: {errors: "No route found"},status: :not_found
+	end
+
   rescue_from PG::NotNullViolation do |exception|
     render json: {errors: exception.error},status: :not_found
   end
+
+	rescue_from JWT::VerificationError do |exception|
+		render json: {errors: "Invalid token"},status: :unauthorized
+	end
+
+	rescue_from ActionDispatch::Http::Parameters::ParseError do |exception|
+		render json: {errors: exception},status: 400
+	end
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render json: {status: 401,messages: "No record found"},status: :not_found
