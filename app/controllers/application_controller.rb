@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
   end
 
   rescue_from NoMethodError do |exception|
-    render json: {error: exception.error}
+    render json: {error: exception}, status: 405
   end
 
   rescue_from ActiveRecord::RecordNotSaved do |exception|
