@@ -4,7 +4,7 @@ class Users::SessionsController < Devise::SessionsController
   def create
     user = User.find_by!(emp_id: params[:user][:emp_id])
     if user.resign?
-      raise CanCan::AccessDenied
+      render status: :unauthorized
     else
       super
     end
