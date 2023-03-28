@@ -14,7 +14,7 @@ class V1::DevicesController < ApplicationController
 
   def create
     device = Device.create!(device_params)
-    render json: device, status: :created, serializer: DeviceSerializer, include: '**'
+    render json: device, status: :created, serializer: DeviceSerializer
   end
 
   def update

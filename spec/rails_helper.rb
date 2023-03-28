@@ -1,5 +1,8 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+# require 'rspec/rails'
+# # note: require 'devise' after require 'rspec/rails'
+require 'devise'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
@@ -20,11 +23,7 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-<<<<<<< HEAD
-# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
-=======
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
->>>>>>> 5d7c798f04a4c37a490db7a3845328e6319d280d
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -35,16 +34,14 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-<<<<<<< HEAD
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-=======
-  config.fixture_path = Rails.root.join('spec/fixtures')
->>>>>>> 5d7c798f04a4c37a490db7a3845328e6319d280d
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+  # config.include Devise::Test::ControllerHelpers, type: :controller
+  # config.include Devise::Test::IntegrationHelpers, type: :request
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false

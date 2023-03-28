@@ -1,7 +1,7 @@
 class Device < ApplicationRecord
   belongs_to :user, optional: true
-  before_create :status, :image_url, :tag_no_assign
-  before_update :status, :image_url
+  before_create :tag_no_assign
+  before_save :status, :image_url
 
   validates :tag_no, uniqueness: true
   validates :name, presence: true, length: { minimum: 3 }
