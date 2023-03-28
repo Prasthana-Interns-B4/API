@@ -50,7 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_074904) do
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
+    t.string "encrypted_password", default: "Prasthana@2023", null: false
     t.string "emp_id"
     t.string "jti", null: false
     t.string "status", default: "pending", null: false

@@ -16,15 +16,15 @@ class ApplicationController < ActionController::API
   end
 
   rescue_from NoMethodError do |exception|
-    render json: {error: exception}, status: 405
+    render json: {error: exception}, status: :method_not_allowed
   end
 
   rescue_from ActiveRecord::RecordNotSaved do |exception|
-    render json: { message: exception.message}
+    render json: { message: exception.message},status: :bad_request
   end
 
   rescue_from ActiveRecord::RecordInvalid do |exception|
-    render json: { message: exception.message }
+    render json: { message: exception.message },status: :bad_request
   end
 
   def user_authorization

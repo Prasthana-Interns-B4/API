@@ -1,21 +1,21 @@
 class Device < ApplicationRecord
   belongs_to :user, optional: true
-  before_create :status, :image_url, :tag_no_assign
-  before_update :status, :image_url
+  before_create :tag_no_assign
+  before_save :status, :image_url
 
   validates :tag_no, uniqueness: true
   validates :name, presence: true, length: { minimum: 3 }
 
   attribute :category, :string, default: "Electronics"
-  attribute :image_url, :string, default: @@image_urls["default"]
+  attribute :image_url, :string, default: @@image_urls["others"]
   scope :search,
-        ->(search) { search.blank? ? Device.all :
+        ->(search) { search.blank? ? Device.all.order(id: "DESC") :
           where(
             "name ILIKE ? OR tag_no ILIKE ? OR device_type ILIKE ?",
             "%#{search}%",
             "%#{search}%",
             "%#{search}%"
-          )
+          ).order(id: "DESC")
         }
 
   def user_active(id)
