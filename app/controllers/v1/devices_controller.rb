@@ -14,12 +14,12 @@ class V1::DevicesController < ApplicationController
 
   def create
     device = Device.create!(device_params)
-    render json: device, status: :created, serializer: DeviceSerializer, include: '**'
+    render json: device, status: :created, serializer: DeviceSerializer
   end
 
   def update
     @device.update!(device_params)
-    render json: @device, status: :created, serializer: DeviceSerializer, include: '**'
+    render json: @device, status: :ok, serializer: DeviceSerializer, include: '**'
   end
 
   def destroy
@@ -28,13 +28,14 @@ class V1::DevicesController < ApplicationController
   end
 
   def assign
+    @device.user_active(device_params[:user_id])
     @device.update!(user_id: device_params[:user_id])
     render json: @device, status: :ok, serializer: DeviceSerializer, include: '**'
   end
 
   def unassign
     @device.update!(user_id: nil)
-    head :ok
+    render json: @device, status: :ok, serializer: DeviceSerializer
   end
 
   private

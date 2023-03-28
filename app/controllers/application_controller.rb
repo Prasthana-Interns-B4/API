@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   rescue_from CanCan::AccessDenied do |exception|
     render json: {error: exception},status: :unauthorized
   end
-  
+
   rescue_from PG::NotNullViolation do |exception|
     render json: {errors: exception.error},status: :not_found
   end
@@ -16,15 +16,15 @@ class ApplicationController < ActionController::API
   end
 
   rescue_from NoMethodError do |exception|
-    render json: {error: exception.error}
+    render json: {error: exception}, status: :method_not_allowed
   end
 
   rescue_from ActiveRecord::RecordNotSaved do |exception|
-    render json: { message: exception.message}
+    render json: { message: exception.message},status: :bad_request
   end
 
   rescue_from ActiveRecord::RecordInvalid do |exception|
-    render json: { message: exception.message }
+    render json: { message: exception.message },status: :bad_request
   end
 
   def user_authorization

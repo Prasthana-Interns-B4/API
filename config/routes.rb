@@ -22,7 +22,6 @@ Rails.application.routes.draw do
       end
 			member do
         put 'approve'
-        delete 'reject',to:'users#destroy'
 				put 'reset_password', to:'users#reset_password'
       end
     end
