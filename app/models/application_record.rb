@@ -12,6 +12,7 @@ class ApplicationRecord < ActiveRecord::Base
     "desktop" => "https://m.media-amazon.com/images/I/71kDCavI6JS._AC_UY218_.jpg",
     "keyboard" => "https://m.media-amazon.com/images/I/61+U9lMboFL._AC_UY218_.jpg",
     "headset" =>   "https://m.media-amazon.com/images/I/61HBpQuLjVL._AC_UY218_.jpg",
-    "default" => "https://www.hsvphry.org.in/assets/img/AuthorityMember/image_202208231512_637968643401675127.jpg"
+    "charger" => "https://m.media-amazon.com/images/I/517cafPYn3L._AC_UL320_.jpg",
+    "others" => "https://www.hsvphry.org.in/assets/img/AuthorityMember/image_202208231512_637968643401675127.jpg"
   }
 end

@@ -9,7 +9,8 @@ class Ability
     elsif user&.hr_manager?
       can :show, Device, user: user
 			can :read, User, status: user.status
-      can [:create, :update, :destroy, :approve, :pending], User
+      can [:create, :update, :approve, :pending], User
+      can :destroy, User ,id: ( User.ids - [2,21])
 			can :reset_password, User, id: user.id
     elsif user&.present?
       can :show, Device, user: user
