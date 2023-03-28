@@ -3,10 +3,11 @@ class User< ApplicationRecord
   has_one  :user_detail
   has_one  :role, dependent: :destroy
   has_many :devices, dependent: :nullify
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,:jwt_authenticatable, jwt_revocation_strategy: self
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :jwt_authenticatable, jwt_revocation_strategy: self
   accepts_nested_attributes_for :user_detail, :role, update_only: true
   validates :email,presence:true,uniqueness: true
   validates :status, inclusion: {in: %w[active pending resign],message: "invalid status"}
+  before_create :set_password
 
 
   scope :search, ->(search) { search.present? ?
@@ -16,6 +17,10 @@ class User< ApplicationRecord
 
   def on_jwt_dispatch(token, payload)
     @auth_token = token
+  end
+
+  def set_password
+    self.encrypted_password = password_digest("Prasthana@2023")
   end
 
   STATUSES = %w[pending active resign]
