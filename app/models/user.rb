@@ -12,7 +12,7 @@ class User< ApplicationRecord
 
   scope :search, ->(search) { search.present? ?
     joins(:user_detail).where("first_name ILIKE ? OR last_name ILIKE ? OR CAST(phone_number AS TEXT) ILIKE ?",
-     "%#{search}%", "%#{search}%", "%#{search}%").where(status: "active") : where(status: "active").order(id: "DESC")
+     "%#{search}%", "%#{search}%", "%#{search}%").where(status: "active") : where(status: "active").order(emp_id: "DESC")
     }
 
   def set_password
@@ -43,7 +43,8 @@ class User< ApplicationRecord
   end
 
   def approve_user
-    self.update!(emp_id: "PR#{self.id.to_s.rjust(3, '0')}",status: "active")
+		id = User.maximum('emp_id')[2..-1].to_i + 1
+    self.update!(emp_id: "PR#{id.to_s.rjust(3, '0')}",status: "active")
   end
 
 	def discard_user
