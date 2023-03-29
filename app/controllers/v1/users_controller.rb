@@ -12,7 +12,7 @@ class V1::UsersController < ApplicationController
 
 	# GET /users/pending or /user/pending.json
 	def pending
-		users= User.where(status: "pending")
+		users= User.where(status: "pending").order(id: 'DESC')
 		render json: users,each_serializer: UserSerializer
 	end
 

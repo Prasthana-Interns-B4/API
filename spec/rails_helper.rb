@@ -20,11 +20,7 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-<<<<<<< HEAD
-# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
-=======
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
->>>>>>> 5d7c798f04a4c37a490db7a3845328e6319d280d
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -35,11 +31,7 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-<<<<<<< HEAD
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
-=======
   config.fixture_path = Rails.root.join('spec/fixtures')
->>>>>>> 5d7c798f04a4c37a490db7a3845328e6319d280d
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
