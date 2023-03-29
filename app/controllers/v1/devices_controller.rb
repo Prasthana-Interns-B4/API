@@ -19,7 +19,7 @@ class V1::DevicesController < ApplicationController
 
   def update
     @device.update!(device_params)
-    render json: @device, status: :created, serializer: DeviceSerializer, include: '**'
+    render json: @device, status: :ok, serializer: DeviceSerializer, include: '**'
   end
 
   def destroy
@@ -35,7 +35,7 @@ class V1::DevicesController < ApplicationController
 
   def unassign
     @device.update!(user_id: nil)
-    head :ok
+    render json: @device, status: :ok, serializer: DeviceSerializer
   end
 
   private

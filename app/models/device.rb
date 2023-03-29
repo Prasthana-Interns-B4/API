@@ -7,15 +7,15 @@ class Device < ApplicationRecord
   validates :name, presence: true, length: { minimum: 3 }
 
   attribute :category, :string, default: "Electronics"
-  attribute :image_url, :string, default: @@image_urls["default"]
+  attribute :image_url, :string, default: @@image_urls["others"]
   scope :search,
-        ->(search) { search.blank? ? Device.all :
+        ->(search) { search.blank? ? Device.all.order(id: "DESC") :
           where(
             "name ILIKE ? OR tag_no ILIKE ? OR device_type ILIKE ?",
             "%#{search}%",
             "%#{search}%",
             "%#{search}%"
-          )
+          ).order(id: "DESC")
         }
 
   def user_active(id)

@@ -2,9 +2,9 @@ require 'rails_helper'
 require 'json'
 
 RSpec.describe "Devices", type: :request do
-  let(:user) { create(:user) }
-  let(:user1) {create(:user)}
-  let(:user2) {create(:user)}
+  let(:user) { create(:user,status: "active")}
+  let(:user1) {create(:user,status: "active")}
+  let(:user2) {create(:user,status: "active")}
   let(:params) do
     {
       user: {
@@ -17,7 +17,6 @@ RSpec.describe "Devices", type: :request do
   let(:device2) {create(:device)}
   let(:device3) {create(:device)}
   let(:device4) {create(:device)}
-
 
   describe "Action performed as facility manager" do
     before do
