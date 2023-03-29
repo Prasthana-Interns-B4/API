@@ -4,7 +4,6 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { 'Prasthana@2023' }
     status { "pending" }
-		# user_detail
-		# role
+
   end
 end

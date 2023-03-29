@@ -38,7 +38,8 @@ class User< ApplicationRecord
   end
  
   def approve_user
-    self.update!(emp_id: "PR#{self.id.to_s.rjust(3, '0')}",status: "active")
+		id = User.maximum("emp_id")[2..-1].to_i + 1
+    self.update!(emp_id: "PR#{id.to_s.rjust(3, '0')}",status: "active")
   end
 
 	def discard_user
