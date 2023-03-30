@@ -57,7 +57,7 @@ RSpec.describe "Devices", type: :request do
                 }
 
       },headers: { 'Authorization' => response.headers['Authorization']}
-      expect(response).to have_http_status(:created)
+      expect(response).to have_http_status(:ok)
     end
 
     it "Destroy a device" do
